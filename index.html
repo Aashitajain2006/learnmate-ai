@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LearnMate AI | Personalized Learning Assistant</title>
+<style>
+:root{--navy:#15264b;--blue:#3569d4;--mint:#dff7ed;--bg:#f4f7fb;--ink:#1d2940;--muted:#64748b}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--navy);color:white;padding:18px 6%;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:800;font-size:22px}.brand span{color:#8ee3c1}.tag{font-size:13px;color:#d7e2ff}
+main{max-width:1100px;margin:28px auto;padding:0 18px}.hero{background:linear-gradient(120deg,#e5efff,#e6fbf3);border-radius:20px;padding:28px;display:flex;gap:20px;align-items:center;justify-content:space-between}
+h1{margin:0 0 8px;font-size:32px}.hero p{max-width:600px;color:#4e5d74;line-height:1.55}.pill{display:inline-block;background:white;border:1px solid #cddcf5;border-radius:30px;padding:7px 12px;font-size:12px;color:#3158a7}
+.grid{display:grid;grid-template-columns:1fr 1.15fr;gap:20px;margin-top:20px}.card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:22px;box-shadow:0 5px 18px #172b4d0b}
+h2{font-size:19px;margin:0 0 16px}.field{margin:12px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+select,input,textarea{width:100%;border:1px solid #d4dce8;border-radius:10px;padding:11px;font:inherit;background:#fff;color:var(--ink)}
+button{background:var(--blue);color:white;border:0;border-radius:10px;padding:12px 17px;font-weight:700;cursor:pointer}button.secondary{background:#edf3ff;color:#3158a7}
+.output{background:#f8fbff;border:1px solid #e0eafa;border-radius:13px;padding:16px;line-height:1.6;min-height:210px}.small{font-size:12px;color:var(--muted);line-height:1.5}.stats{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}.stat{background:white;border:1px solid #e1e8f0;border-radius:12px;padding:12px 16px;min-width:120px}.stat strong{display:block;font-size:20px;color:#3158a7}.stat span{font-size:12px;color:var(--muted)}
+ul{padding-left:20px}footer{text-align:center;padding:28px;color:var(--muted);font-size:12px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.hero{display:block}h1{font-size:26px}}
+</style></head>
+<body>
+<header><div class="brand">✦ LearnMate <span>AI</span></div><div class="tag">SDG 4 · Quality Education</div></header>
+<main>
+<section class="hero"><div><span class="pill">PERSONALIZED LEARNING DEMO</span><h1>Learn at your pace.<br>Grow with confidence.</h1><p>A student-friendly learning assistant that adapts explanations, practice questions, and study plans to a learner’s topic, grade, and confidence level.</p></div><div style="font-size:76px">📚✨</div></section>
+<div class="stats"><div class="stat"><strong>3 steps</strong><span>Learn · Practice · Reflect</span></div><div class="stat"><strong>Any pace</strong><span>Beginner to advanced</span></div><div class="stat"><strong>Low-cost</strong><span>Designed for access</span></div></div>
+<div class="grid">
+<section class="card"><h2>Build your learning session</h2>
+<div class="field"><label for="topic">Topic</label><input id="topic" value="Fractions" placeholder="e.g. Photosynthesis"></div>
+<div class="field"><label for="grade">Grade / level</label><select id="grade"><option>Class 6–8</option><option>Class 9–10</option><option>Class 11–12</option><option>Beginner adult learner</option></select></div>
+<div class="field"><label for="level">How confident do you feel?</label><select id="level"><option value="low">I am just starting</option><option value="medium">I know a little</option><option value="high">I am confident</option></select></div>
+<div class="field"><label for="language">Preferred language</label><select id="language"><option>Simple English</option><option>Hindi-friendly explanation</option></select></div>
+<button onclick="makePlan()">Create my learning plan</button> <button class="secondary" onclick="resetPlan()">Reset</button>
+<p class="small">Demo note: this prototype uses rule-based sample content. It does not call an AI model or store personal data.</p></section>
+<section class="card"><h2>Your personalized session</h2><div class="output" id="output" aria-live="polite"><strong>Welcome!</strong><p>Choose your topic and confidence level, then select “Create my learning plan”. Your session will include a short explanation, practice questions, and a next step.</p></div></section>
+</div>
+<section class="card" style="margin-top:20px"><h2>Project purpose</h2><p>LearnMate AI aims to make learning more accessible through simple, level-aware explanations and practice. It supports SDG 4 (Quality Education) by focusing on personalized learning, multilingual access, and self-paced study.</p><p class="small">Responsible-use note: educational support only. Learners should verify answers with teachers or trusted learning materials. Do not enter sensitive personal information.</p></section>
+</main><footer>LearnMate AI · Academic project prototype · SDG 4: Quality Education</footer>
+<script>
+function makePlan(){
+ const topic=document.getElementById('topic').value.trim()||'your topic';
+ const grade=document.getElementById('grade').value;
+ const level=document.getElementById('level').value;
+ const lang=document.getElementById('language').value;
+ const simple=lang==='Hindi-friendly explanation'?'Hindi-friendly':'simple English';
+ let intro=level==='low'?`Start with the basics of ${topic}. Think of one everyday example connected to it.`:level==='medium'?`Review the key idea of ${topic}, then connect it to a real-life example.`:`Explain ${topic} in your own words, then test yourself with a new example.`;
+ let q=topic.toLowerCase().includes('fraction')?['What does 1/2 mean?','Which is larger: 1/2 or 1/4?','If a pizza has 8 equal slices and you eat 3, what fraction remains?']: [`What is one important idea about ${topic}?`,`Give a real-life example of ${topic}.`,`What question would you ask to check your understanding?`];
+ let support=level==='low'?'Hint: break the topic into smaller steps and use a drawing or example.':level==='medium'?'Hint: explain the “why”, not only the definition.':'Challenge: create your own example and explain why it works.';
+ document.getElementById('output').innerHTML=`<span class="pill">${grade} · ${simple}</span><h3>1. Quick explanation</h3><p>${intro}</p><h3>2. Practice questions</h3><ol>${q.map(x=>'<li>'+x+'</li>').join('')}</ol><h3>3. Helpful hint</h3><p>${support}</p><h3>4. 15-minute study plan</h3><ul><li>5 min: read or watch one trusted explanation.</li><li>7 min: answer the practice questions.</li><li>3 min: write one thing learned and one doubt.</li></ul><p class="small">Generated by the LearnMate AI demo rules. Review answers with a teacher or trusted source.</p>`;
+}
+function resetPlan(){document.getElementById('topic').value='Fractions';document.getElementById('grade').selectedIndex=0;document.getElementById('level').value='low';document.getElementById('language').selectedIndex=0;document.getElementById('output').innerHTML='<strong>Welcome!</strong><p>Choose your topic and confidence level, then select “Create my learning plan”.</p>'}
+</script></body></html>
